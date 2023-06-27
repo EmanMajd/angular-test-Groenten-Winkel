@@ -1,0 +1,48 @@
+{{ model | json }}
+
+<form #bestellingForm="ngForm" (ngSubmit)="onSubmit()">
+<div class="form-group">
+    <label for="winkels">Kies winkel</label>
+    <select class="form-control ng-untouched ng-pristine ng-invalid" id="winkels" [(ngModel)]="model.winkel" name="winkel"  required
+    #winkels="ngModel">
+      <option *ngFor="let winkel of alleWinkels" [value]="winkel.naam" [title]="winkel.adres">
+        {{winkel.naam}}</option>
+    </select>
+    <div [hidden]="winkels.touched && winkels.valid"
+     class="alert alert-danger">
+     Er moet een winkel geselecteerd zijn
+</div>
+  </div>
+
+<div class="form-group">
+    <label for="groente">Kies groente</label>
+    <select class="form-control ng-untouched ng-pristine ng-invalid" id="groente" [(ngModel)]="model.groente" name="groente" 
+    #groente="ngModel"  required>
+      <option *ngFor="let groente of allegroenten" [value]="groente.name"  id="groente" >
+        {{groente.name}}( {{groente.prijs}} / {{groente.hoeveelheid}} )</option>
+    </select>
+
+    <div [hidden]="groente.touched && groente.valid" class="alert alert-danger">
+        Er moet een groente geselecteerd zijn
+    </div>
+
+  </div>
+
+  <div class="form-group">
+    <label for="aantal">Aantal/gewicht</label>
+    <input type="text"  class="form-control ng-untouched ng-pristine ng-invalid" id="aantal"
+           [(ngModel)]="model.aantal" name="aantal" #aantal ="ngModel"  required/>
+
+    <div [hidden]="aantal.touched && aantal.valid" class="alert alert-danger">
+            Je moet het aantal tovoegen
+    </div>
+  </div>
+
+  <button type="button" class="btn btn-default" (click)=" submitBestelling(); bestellingForm.reset()" 
+  [disabled]="!bestellingForm.form.valid && !bestellingForm.form.touched">
+    Bestel</button>
+
+  <input type="text" class="form-control" id="name"
+       required
+       [(ngModel)]="model.groente" name="name">
+</form>

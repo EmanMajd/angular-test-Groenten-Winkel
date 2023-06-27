@@ -2,13 +2,19 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
+import { GroentenFormulierComponent } from './groenten-formulier/groenten-formulier.component';
+import { WinkelkarComponent } from './winkelkar/winkelkar.component';
+import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    GroentenFormulierComponent,
+    WinkelkarComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
