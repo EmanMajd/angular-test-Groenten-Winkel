@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component , Input} from '@angular/core';
 import { Groenten } from '../groenten';
 import { AlleGroenten } from '../mock-groenten';
 import { Winkels } from '../winkels';
 import { Bestelling } from '../bestelling';
 import { WinkelServiceService } from '../winkel-service.service';
 import { GroentenServiceService } from '../groenten-service.service';
+import { WinkelkarService } from '../winkelkar.service';
+import { WinkelKarContent } from '../winkelkarContent';
+import { WinkelkarComponent } from '../winkelkar/winkelkar.component';
 
 @Component({
   selector: 'app-groenten-formulier',
@@ -17,8 +20,15 @@ export class GroentenFormulierComponent {
 
   allegroenten : Groenten[] = [];
   alleWinkels :  Winkels[] = [];
+  winkelkarbestelling? : WinkelKarContent;
+  price : number = 0;
+  currency: string = 'eur';
 
-  constructor(private winkelService: WinkelServiceService, private groenteService: GroentenServiceService) {}
+
+  @Input() winkelmandje!: Groenten;
+
+
+  constructor(private winkelService: WinkelServiceService, private groenteService: GroentenServiceService, private winkelkarService : WinkelkarService) {}
 
 
   getWinkels(): void {
@@ -29,18 +39,42 @@ export class GroentenFormulierComponent {
   getGroenten(): void {
     this.groenteService.getGroenten()
         .subscribe(groenten => this.allegroenten = groenten);
+
   }
   ngOnInit(): void {
     this.getWinkels();
     this.getGroenten();
+    this.findGroente();
   }
-
-
-  model = new Bestelling("De fruitmand", "aardappelen ( 0.95 / kg )", 0);
+ 
+  findGroente(){
+   for(let groente of this.allegroenten){
+    if(this.model.groente === groente.name)    
+       this.price = groente.prijs;
+   }
+    return this.price;
+  }
+  
+  toggleCurrency():string {
+    this.currency = this.currency === 'eur' ? 'usd' : 'eur';
+    return this.currency;
+  }
+ 
+  model = new Bestelling( "" , "" , 0);
+ // winkelkarAddBestelling = this.winkelkarbestelling;
 
   submitBestelling() {
-    this.model = new Bestelling("", "", 0);
+    if(this.model.groente === null && this.model.winkel === null && this.model.aantal <= 0)
+    return ;
+    
+    //this.model = new Bestelling("", "",0);
+   
+    
+    this.winkelkarbestelling = { winkel: this.model.winkel, groente: this.model.groente,aantal: this.model.aantal,prijs: this.findGroente() , currency: this.toggleCurrency(),totaalPrijs: this.findGroente()* this.model.aantal};
+    this.winkelkarService.add(this.winkelkarbestelling);
+
   }
+
 
   submitted = false;
 

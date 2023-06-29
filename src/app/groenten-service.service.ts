@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class GroentenServiceService {
+  allegroenten : Groenten[] = [];
 
   constructor() { }
 
@@ -14,4 +15,8 @@ export class GroentenServiceService {
     const groenten = of(AlleGroenten);
     return groenten;
   }
+
+ 
+   
+ 
 }

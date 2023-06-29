@@ -1,1 +1,30 @@
-<p>winkelkar works!</p>
+<p>winkel mandje</p>
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Winkel</th>
+        <th scope="col">Groente</th>
+        <th scope="col">Aantal</th>
+        <th scope="col">Prijs</th>
+        <th scope="col">currency</th>
+        <th scope="col">TotaalPrijs</th>
+
+      </tr>
+    </thead>
+
+    <tbody >
+      <tr  *ngFor="let bestelling of Bestellingen">
+        <td>{{ bestelling.winkel}}</td>
+        <td>{{ bestelling.groente}}</td>
+        <td>{{ bestelling.aantal}}</td>
+        <td>{{ bestelling.prijs}}</td>
+        <td>{{ bestelling.currency}}</td>
+        <td>{{ bestelling.totaalPrijs}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="Bestellingen.length === 0">
+    Geen items in de winkelkar.
+  </div>
