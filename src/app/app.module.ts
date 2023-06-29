@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { Injectable } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { GroentenFormulierComponent } from './groenten-formulier/groenten-formulier.component';

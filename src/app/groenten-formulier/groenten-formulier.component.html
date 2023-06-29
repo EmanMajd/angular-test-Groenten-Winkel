@@ -1,4 +1,3 @@
-{{ model | json }}
 <div [hidden]="submitted">
 
 <form #bestellingForm="ngForm" (ngSubmit)="onSubmit()">
@@ -9,7 +8,7 @@
       <option *ngFor="let winkel of alleWinkels" [value]="winkel.naam" [title]="winkel.adres" >
         {{winkel.naam}}</option>
     </select>
-    <div [hidden]="winkels.touched || winkels.valid"
+    <div [hidden]="winkels.touched || winkels.valid || !model.winkel"
      class="alert alert-danger">
      Er moet een winkel geselecteerd zijn
 </div>
@@ -23,7 +22,7 @@
         {{groente.name}}( {{groente.prijs}} / {{groente.hoeveelheid}} )</option>
         <h4 hidden ></h4>
     </select>
-    <div [hidden]="groente.touched || groente.valid" class="alert alert-danger">
+    <div [hidden]="groente.touched || groente.valid  || !model.groente" class="alert alert-danger">
         Er moet een groente geselecteerd zijn
     </div>
 
@@ -34,24 +33,20 @@
     <input type="text"  class="form-control ng-untouched ng-pristine ng-invalid" id="aantal"
            [(ngModel)]="model.aantal" name="aantal" #aantal ="ngModel"  required/>
 
-    <div [hidden]="aantal.touched || aantal.valid" class="alert alert-danger">
+    <div [hidden]="aantal.touched || aantal.valid || model.aantal <=0" class="alert alert-danger">
             Je moet het aantal tovoegen
     </div>
   </div>
   
  
-   
-
-   <h2>{{price}}</h2>
-
   <button type="button" class="btn btn-default" (click)=" submitBestelling(); bestellingForm.reset()" 
-  [disabled]="!bestellingForm.form.valid || !bestellingForm.form.touched || model.aantal <=0 ">
+  [disabled]="!bestellingForm.form.valid || !bestellingForm.form.touched || model.aantal <=0 || !model.winkel|| !model.groente">
     Bestel</button>
 </form>
 </div>
 
 <div>
-  <button (click)="toggleCurrency()">{{ currency === 'eur' ? 'USD' : 'EUR' }}</button>
+  <button (click)="toggleCurrency()">{{ currency === 'EUR' ? 'USD' : 'EUR' }}</button>
 </div>
 <div [hidden]="submitted">
   <app-winkelkar></app-winkelkar>

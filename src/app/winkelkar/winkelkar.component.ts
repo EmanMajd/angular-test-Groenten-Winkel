@@ -2,6 +2,8 @@ import { Component ,  Input  } from '@angular/core';
 import { WinkelkarService } from '../winkelkar.service';
 import { WinkelKarContent } from '../winkelkarContent';
 import { Groenten } from '../groenten';
+import { Injectable } from '@angular/core';
+
 
 @Component({
   selector: 'app-winkelkar',

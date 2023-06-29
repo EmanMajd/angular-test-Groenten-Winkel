@@ -22,7 +22,7 @@ export class GroentenFormulierComponent {
   alleWinkels :  Winkels[] = [];
   winkelkarbestelling? : WinkelKarContent;
   price : number = 0;
-  currency: string = 'eur';
+  currency: string = 'USD';
 
 
   @Input() winkelmandje!: Groenten;
@@ -54,9 +54,11 @@ export class GroentenFormulierComponent {
    }
     return this.price;
   }
-  
-  toggleCurrency():string {
-    this.currency = this.currency === 'eur' ? 'usd' : 'eur';
+  toggleCurrency(): string {
+    this.currency = this.currency === 'EUR' ? 'USD' : 'EUR';
+    return this.currency;
+  }
+  getCurrency(): string {
     return this.currency;
   }
  
@@ -65,7 +67,7 @@ export class GroentenFormulierComponent {
 
   submitBestelling() {
         
-    this.winkelkarbestelling = { winkel: this.model.winkel, groente: this.model.groente,aantal: this.model.aantal,prijs: this.findGroente() , currency: this.toggleCurrency(),totaalPrijs: this.findGroente()* this.model.aantal};
+    this.winkelkarbestelling = { winkel: this.model.winkel, groente: this.model.groente,aantal: this.model.aantal,prijs: this.findGroente() , currency: this.getCurrency(),totaalPrijs: this.findGroente()* this.model.aantal};
     this.winkelkarService.add(this.winkelkarbestelling);
     
   }
@@ -74,6 +76,6 @@ export class GroentenFormulierComponent {
   submitted = false;
 
   onSubmit() { this.submitted = true; }
-
+ 
 
 }
