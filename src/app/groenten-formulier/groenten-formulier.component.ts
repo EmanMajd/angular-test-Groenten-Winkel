@@ -1,13 +1,11 @@
-import { Component , Input} from '@angular/core';
-import { Groenten } from '../groenten';
-import { AlleGroenten } from '../mock-groenten';
-import { Winkels } from '../winkels';
-import { Bestelling } from '../bestelling';
-import { WinkelServiceService } from '../winkel-service.service';
-import { GroentenServiceService } from '../groenten-service.service';
-import { WinkelkarService } from '../winkelkar.service';
-import { WinkelKarContent } from '../winkelkarContent';
-import { WinkelkarComponent } from '../winkelkar/winkelkar.component';
+import {Component, Input} from '@angular/core';
+import {Groenten} from '../groenten';
+import {Winkels} from '../winkels';
+import {Bestelling} from '../bestelling';
+import {WinkelServiceService} from '../winkel-service.service';
+import {GroentenServiceService} from '../groenten-service.service';
+import {WinkelkarService} from '../winkelkar.service';
+import {WinkelKarContent} from '../winkelkarContent';
 
 @Component({
   selector: 'app-groenten-formulier',
@@ -15,62 +13,73 @@ import { WinkelkarComponent } from '../winkelkar/winkelkar.component';
   styleUrls: ['./groenten-formulier.component.css']
 })
 
-
 export class GroentenFormulierComponent {
 
-  allegroenten : Groenten[] = [];
-  alleWinkels :  Winkels[] = [];
-  winkelkarbestelling? : WinkelKarContent;
-  price : number = 0;
-  currency: string = 'eur';
+  allegroenten: Groenten[] = [];
+  alleWinkels: Winkels[] = [];
+  winkelkarbestelling?: WinkelKarContent;
+  price: number = 0;
+  currency: string = 'USD';
+  model = new Bestelling("", "", 0);
 
 
   @Input() winkelmandje!: Groenten;
 
 
-  constructor(private winkelService: WinkelServiceService, private groenteService: GroentenServiceService, private winkelkarService : WinkelkarService) {}
+  constructor(private winkelService: WinkelServiceService, private groenteService: GroentenServiceService, private winkelkarService: WinkelkarService) {
+  }
 
 
   getWinkels(): void {
     this.winkelService.getWinkels()
-        .subscribe(winkels => this.alleWinkels = winkels);
+      .subscribe(winkels => this.alleWinkels = winkels);
   }
 
   getGroenten(): void {
     this.groenteService.getGroenten()
-        .subscribe(groenten => this.allegroenten = groenten);
+      .subscribe(groenten => this.allegroenten = groenten);
 
   }
+
   ngOnInit(): void {
     this.getWinkels();
     this.getGroenten();
     this.findGroente();
   }
- 
-  findGroente(){
-   for(let groente of this.allegroenten){
-    if(this.model.groente === groente.name)    
-       this.price = groente.prijs;
-   }
+
+  findGroente() {
+    for (let groente of this.allegroenten) {
+      if (this.model.groente === groente.name)
+        this.price = groente.prijs;
+    }
     return this.price;
   }
-  
-  toggleCurrency():string {
-    this.currency = this.currency === 'eur' ? 'usd' : 'eur';
+
+  toggleCurrency(): string {
+    this.currency = this.currency === 'EUR' ? 'USD' : 'EUR';
     return this.currency;
   }
- 
-  model = new Bestelling( "" , "" , 0);
- // winkelkarAddBestelling = this.winkelkarbestelling;
+
+  getCurrency(): string {
+    return this.currency;
+  }
+
+
+  // winkelkarAddBestelling = this.winkelkarbestelling;
 
   submitBestelling() {
-    if(this.model.groente === null && this.model.winkel === null && this.model.aantal <= 0)
-    return ;
-    
-    //this.model = new Bestelling("", "",0);
-   
-    
-    this.winkelkarbestelling = { winkel: this.model.winkel, groente: this.model.groente,aantal: this.model.aantal,prijs: this.findGroente() , currency: this.toggleCurrency(),totaalPrijs: this.findGroente()* this.model.aantal};
+    if (this.model.groente === null && this.model.winkel === null && this.model.aantal <= 0) {
+      return;
+    }
+
+    this.winkelkarbestelling = {
+      winkel: this.model.winkel,
+      groente: this.model.groente,
+      aantal: this.model.aantal,
+      prijs: this.findGroente(),
+      currency: this.getCurrency(),
+      totaalPrijs: this.findGroente() * this.model.aantal
+    };
     this.winkelkarService.add(this.winkelkarbestelling);
 
   }
@@ -78,5 +87,7 @@ export class GroentenFormulierComponent {
 
   submitted = false;
 
-  onSubmit() { this.submitted = true; }
+  onSubmit() {
+    this.submitted = true;
+  }
 }
