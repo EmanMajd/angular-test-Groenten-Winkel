@@ -15,25 +15,28 @@ export class WinkelkarService {
       this.Bestellingen.push(bestelling);
 
     }
-    else
+    else{
        this.validatelist(bestelling); 
+    }
   }
 
   validatelist(bestelling: WinkelKarContent){
+    let conditi: boolean = false;
 
     for(let bestel of this.Bestellingen){
       
       if( bestelling.winkel === bestel.winkel && bestelling.groente === bestel.groente){
-
+         conditi = true;
          bestel.aantal = Number(bestel.aantal) + Number(bestelling.aantal);
          bestel.totaalPrijs = (Number(bestel.aantal)*Number(bestelling.prijs));
          bestel.totaalPrijs =  Number(bestel.totaalPrijs.toFixed(2)); 
-      }else{
-        this.Bestellingen.push(bestelling);
-
       }
     
     }
+
+    if(!conditi)
+    this.Bestellingen.push(bestelling);
+
   }
 
   getBestellingen():Observable<WinkelKarContent[]>{

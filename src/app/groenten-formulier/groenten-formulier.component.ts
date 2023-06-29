@@ -64,19 +64,16 @@ export class GroentenFormulierComponent {
  // winkelkarAddBestelling = this.winkelkarbestelling;
 
   submitBestelling() {
-    if(this.model.groente === null && this.model.winkel === null && this.model.aantal <= 0)
-    return ;
-    
-    //this.model = new Bestelling("", "",0);
-   
-    
+        
     this.winkelkarbestelling = { winkel: this.model.winkel, groente: this.model.groente,aantal: this.model.aantal,prijs: this.findGroente() , currency: this.toggleCurrency(),totaalPrijs: this.findGroente()* this.model.aantal};
     this.winkelkarService.add(this.winkelkarbestelling);
-
+    
   }
-
+ 
 
   submitted = false;
 
   onSubmit() { this.submitted = true; }
+
+
 }

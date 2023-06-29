@@ -13,8 +13,8 @@
       </tr>
     </thead>
 
-    <tbody >
-      <tr  *ngFor="let bestelling of Bestellingen">
+    <tbody *ngFor="let bestelling of Bestellingen">
+      <tr >
         <td>{{ bestelling.winkel}}</td>
         <td>{{ bestelling.groente}}</td>
         <td>{{ bestelling.aantal}}</td>
