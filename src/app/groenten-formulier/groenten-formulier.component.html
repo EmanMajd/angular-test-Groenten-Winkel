@@ -45,7 +45,7 @@
    <h2>{{price}}</h2>
 
   <button type="button" class="btn btn-default" (click)=" submitBestelling(); bestellingForm.reset()" 
-  [disabled]="!bestellingForm.form.valid || !bestellingForm.form.touched ">
+  [disabled]="!bestellingForm.form.valid || !bestellingForm.form.touched || model.aantal <=0 ">
     Bestel</button>
 </form>
 </div>
